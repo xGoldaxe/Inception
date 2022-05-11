@@ -2,7 +2,7 @@ version: '3.7'
 services:
 
     wordpress:
-      build:  wordpress/
+      build:  wp/
       image:  pleveque/wordpress:stable
       container_name: wordpress
       volumes:
@@ -24,6 +24,8 @@ services:
         WP_USR:           ${WP_USR}
         WP_PWD:           ${WP_PWD}
         WP_EMAIL:         ${WP_EMAIL}
+        REDIS_HOST:       ${REDIS_HOST}
+        REDIS_PORT:       ${REDIS_PORT}
 
     nginx:
       build:  nginx/
@@ -57,11 +59,22 @@ services:
       image:  pleveque/adminer:stable
       container_name: adminer
       networks:
-        - frontend
         - backend
       ports:
         - 8080:80
       restart:  always
+
+    redis:
+      build:  redis/
+      image:  pleveque/redis:stable
+      container_name: redis
+      networks:
+        - backend
+      ports:
+        - 26379:6379
+      restart: always
+      environment:
+        REDIS_PASS:   ${REDIS_PASS}
 
 networks:
     backend:

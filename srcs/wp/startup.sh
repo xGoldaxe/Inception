@@ -27,7 +27,16 @@ if [ ! -f "/var/www/index.php" ]; then
 	wp user create $WP_USR $WP_EMAIL --role=editor --user_pass=$WP_PWD --allow-root
 	wp theme install neve --activate --allow-root
 
+	# add options to wp-config.php
+	cat >> wp-config.php << EOF
+define( 'WP_REDIS_HOST', '$REDIS_HOST' );
+define( 'WP_REDIS_PORT', $REDIS_PORT );
+EOF
+	# install redis dependencies
+	wp plugin install redis-cache --activate --allow-root
+
 fi
 
+wp redis enable --allow-root
 # start php-fpm
 php-fpm8
