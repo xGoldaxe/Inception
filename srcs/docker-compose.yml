@@ -52,6 +52,17 @@ services:
         WP_DATABASE_USR:  ${WP_DATABASE_USR}
         WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
 
+    adminer:
+      build:  adminer/
+      image:  pleveque/adminer:stable
+      container_name: adminer
+      networks:
+        - frontend
+        - backend
+      ports:
+        - 8080:80
+      restart:  always
+
 networks:
     backend:
     frontend:
