@@ -26,7 +26,7 @@ services:
         WP_EMAIL:         ${WP_EMAIL}
         REDIS_HOST:       ${REDIS_HOST}
         REDIS_PORT:       ${REDIS_PORT}
-
+        REDIS_PASS:       ${REDIS_PASS}
     nginx:
       build:  nginx/
       image:  pleveque/nginx:stable
@@ -54,28 +54,42 @@ services:
         WP_DATABASE_USR:  ${WP_DATABASE_USR}
         WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
 
-    adminer:
-      build:  adminer/
-      image:  pleveque/adminer:stable
-      container_name: adminer
-      networks:
-        - backend
-      ports:
-        - 8080:80
+          #    adminer:
+          #      build:  adminer/
+          #      image:  pleveque/adminer:stable
+          #      container_name: adminer
+          #      networks:
+          #        - backend
+          #      ports:
+          #        - 8080:80
+          #      restart:  always
+          #
+          #    redis:
+          #      build:  redis/
+          #      image:  pleveque/redis:stable
+          #      container_name: redis
+          #      networks:
+          #        - backend
+          #      ports:
+          #        - ${REDIS_PORT}:${REDIS_PORT}
+          #      restart: always
+          #      environment:
+          #        REDIS_PASS:   ${REDIS_PASS}
+          #        REDIS_PORT:   ${REDIS_PORT}
+    
+    ftp:
+      build:  ftp/
+      image:  pleveque/ftp:stable
+      container_name: ftp
       restart:  always
-
-    redis:
-      build:  redis/
-      image:  pleveque/redis:stable
-      container_name: redis
-      networks:
-        - backend
       ports:
-        - 26379:6379
-      restart: always
+        - 21:21
+        - "21100-21110:21100-21110"
+      volumes:
+        - "/home/pleveque/data/www:/var/www"
       environment:
-        REDIS_PASS:   ${REDIS_PASS}
-
+          FTP_USER: ${FTP_USER}
+          FTP_PASS: ${FTP_PASS}
 networks:
     backend:
     frontend:

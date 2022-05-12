@@ -52,7 +52,9 @@ RUN	apk update && apk upgrade && apk add --no-cache \
 		php8-xmlwriter		\
 		php8-xsl			\
 		php8-zip			\
-		php8-zlib			
+		php8-zlib		\
+		php8-redis		\
+		redis				
 
 # copy config files
 COPY server/etc/php /etc/php8

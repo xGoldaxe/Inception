@@ -1,10 +1,9 @@
 # use stable version of alpine
 FROM alpine:3.15
 
+RUN	apk update && apk upgrade && apk add vsftpd --no-cache
 
-RUN	apk update && apk upgrade && apk add --no-cache redis
-
-#COPY 	redis.conf.template /etc/redis.conf.template
+COPY	vsftpd.conf /tmp/vsftpd.conf
 
 COPY	startup.sh /script/startup.sh
 
