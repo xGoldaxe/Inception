@@ -10,7 +10,7 @@ SRC=srcs/docker-compose.yml
 
 up:
 	@printf "${B_MAGENTA}Start docker compose\n${NONE}"
-	docker compose -f ${SRC} up
+	@docker compose -f ${SRC} up
 
 down:
 	@printf "${B_RED}XX clean XX\n${NONE}"
