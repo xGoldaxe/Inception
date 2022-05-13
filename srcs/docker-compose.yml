@@ -1,58 +1,83 @@
 version: '3.7'
 services:
 
-    wordpress:
-      build:  wp/
-      image:  pleveque/wordpress:stable
-      container_name: wordpress
+  #    wordpress:
+  #      build:  wp/
+  #      image:  pleveque/wordpress:stable
+  #      container_name: wordpress
+  #      volumes:
+  #        - "/home/pleveque/data/www:/var/www"
+  #      networks:
+  #        - backend
+  #        - frontend
+  #      restart: always
+  #      environment:
+  #        MYSQL_HOST:       ${MYSQL_HOST}
+  #        WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+  #        WP_DATABASE_USR:  ${WP_DATABASE_USR}
+  #        WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
+  #        DOMAIN_NAME:      ${DOMAIN_NAME}
+  #        WP_TITLE:         ${WP_TITLE}
+  #        WP_ADMIN_USR:     ${WP_ADMIN_USR}
+  #        WP_ADMIN_PWD:     ${WP_ADMIN_PWD}
+  #        WP_ADMIN_EMAIL:   ${WP_ADMIN_EMAIL}
+  #        WP_USR:           ${WP_USR}
+  #        WP_PWD:           ${WP_PWD}
+  #        WP_EMAIL:         ${WP_EMAIL}
+  #        REDIS_HOST:       ${REDIS_HOST}
+  #        REDIS_PORT:       ${REDIS_PORT}
+  #        REDIS_PASS:       ${REDIS_PASS}
+  #    nginx:
+  #      build:  nginx/
+  #      image:  pleveque/nginx:stable
+  #      container_name: nginx
+  #      ports:
+  #        - 443:443
+  #      networks:
+  #        - frontend
+  #      restart: always
+  #      volumes:
+  #        - "/home/pleveque/data/www:/var/www"
+  #    
+  #    mariadb:
+  #      build: mariadb/
+  #      image:  pleveque/mariadb:stable
+  #      container_name: mariadb
+  #      networks:
+  #        - backend
+  #      restart: always
+  #      volumes:
+  #        - "/home/pleveque/data/database:/var/lib/mysql"
+  #      environment:
+  #        MYSQL_ROOT_PWD:   ${MYSQL_ROOT_PWD}
+  #        WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+  #        WP_DATABASE_USR:  ${WP_DATABASE_USR}
+  #        WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
+  #
+  #    www-static:
+  #      build:  www-static/
+  #      image:  pleveque/www-static:stable
+  #      container_name: www-static
+  #      restart:  always
+  #      volumes:
+  #        - "/home/pleveque/www-static:/var/www/"
+  #      ports:
+  #        - 3010:80
+   
+    nextjs:
+      build:  nextjs/
+      image:  pleveque/nextjs:stable
+      container_name: nextjs
+      restart:  always
+      command:
+        - --get=https://github.com/xGoldaxe/portfolio.git
+        - --port=3050
+        - --replace=no
+        - --mode=prod
       volumes:
-        - "/home/pleveque/data/www:/var/www"
-      networks:
-        - backend
-        - frontend
-      restart: always
-      environment:
-        MYSQL_HOST:       ${MYSQL_HOST}
-        WP_DATABASE_NAME: ${WP_DATABASE_NAME}
-        WP_DATABASE_USR:  ${WP_DATABASE_USR}
-        WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
-        DOMAIN_NAME:      ${DOMAIN_NAME}
-        WP_TITLE:         ${WP_TITLE}
-        WP_ADMIN_USR:     ${WP_ADMIN_USR}
-        WP_ADMIN_PWD:     ${WP_ADMIN_PWD}
-        WP_ADMIN_EMAIL:   ${WP_ADMIN_EMAIL}
-        WP_USR:           ${WP_USR}
-        WP_PWD:           ${WP_PWD}
-        WP_EMAIL:         ${WP_EMAIL}
-        REDIS_HOST:       ${REDIS_HOST}
-        REDIS_PORT:       ${REDIS_PORT}
-        REDIS_PASS:       ${REDIS_PASS}
-    nginx:
-      build:  nginx/
-      image:  pleveque/nginx:stable
-      container_name: nginx
+        - "/home/pleveque/nextjs:/home/app/"
       ports:
-        - 443:443
-      networks:
-        - frontend
-      restart: always
-      volumes:
-        - "/home/pleveque/data/www:/var/www"
-    
-    mariadb:
-      build: mariadb/
-      image:  pleveque/mariadb:stable
-      container_name: mariadb
-      networks:
-        - backend
-      restart: always
-      volumes:
-        - "/home/pleveque/data/database:/var/lib/mysql"
-      environment:
-        MYSQL_ROOT_PWD:   ${MYSQL_ROOT_PWD}
-        WP_DATABASE_NAME: ${WP_DATABASE_NAME}
-        WP_DATABASE_USR:  ${WP_DATABASE_USR}
-        WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
+        - 3050:3050
 
           #    adminer:
           #      build:  adminer/
@@ -63,7 +88,7 @@ services:
           #      ports:
           #        - 8080:80
           #      restart:  always
-          #
+          #    
           #    redis:
           #      build:  redis/
           #      image:  pleveque/redis:stable
@@ -77,19 +102,19 @@ services:
           #        REDIS_PASS:   ${REDIS_PASS}
           #        REDIS_PORT:   ${REDIS_PORT}
     
-    ftp:
-      build:  ftp/
-      image:  pleveque/ftp:stable
-      container_name: ftp
-      restart:  always
-      ports:
-        - 21:21
-        - "21100-21110:21100-21110"
-      volumes:
-        - "/home/pleveque/data/www:/var/www"
-      environment:
-          FTP_USER: ${FTP_USER}
-          FTP_PASS: ${FTP_PASS}
+          # ftp:
+          #   build:  ftp/
+          #   image:  pleveque/ftp:stable
+          #   container_name: ftp
+          #   restart:  always
+          #   ports:
+          #     - 21:21
+          #     - "21100-21110:21100-21110"
+          #   volumes:
+          #     - "/home/pleveque/data/www:/var/www"
+          #   environment:
+          #       FTP_USER: ${FTP_USER}
+          #       FTP_PASS: ${FTP_PASS}
 networks:
     backend:
     frontend:
