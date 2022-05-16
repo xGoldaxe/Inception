@@ -60,7 +60,7 @@ services:
       container_name: www-static
       restart:  always
       volumes:
-        - "/home/pleveque/www-static:/var/www/"
+        - "/home/pleveque/data/www-static:/var/www/"
       ports:
         - 3010:80
    
@@ -75,46 +75,33 @@ services:
         - --replace=no
         - --mode=prod
       volumes:
-        - "/home/pleveque/nextjs:/home/app/"
+        - "/home/pleveque/data/nextjs:/home/app/"
       ports:
         - 3050:3050
 
-          #    adminer:
-          #      build:  adminer/
-          #      image:  pleveque/adminer:stable
-          #      container_name: adminer
-          #      networks:
-          #        - backend
-          #      ports:
-          #        - 8080:80
-          #      restart:  always
-          #    
-          #    redis:
-          #      build:  redis/
-          #      image:  pleveque/redis:stable
-          #      container_name: redis
-          #      networks:
-          #        - backend
-          #      ports:
-          #        - ${REDIS_PORT}:${REDIS_PORT}
-          #      restart: always
-          #      environment:
-          #        REDIS_PASS:   ${REDIS_PASS}
-          #        REDIS_PORT:   ${REDIS_PORT}
+    adminer:
+      build:  adminer/
+      image:  pleveque/adminer:stable
+      container_name: adminer
+      networks:
+        - backend
+      ports:
+        - 8080:80
+      restart:  always
     
-          # ftp:
-          #   build:  ftp/
-          #   image:  pleveque/ftp:stable
-          #   container_name: ftp
-          #   restart:  always
-          #   ports:
-          #     - 21:21
-          #     - "21100-21110:21100-21110"
-          #   volumes:
-          #     - "/home/pleveque/data/www:/var/www"
-          #   environment:
-          #       FTP_USER: ${FTP_USER}
-          #       FTP_PASS: ${FTP_PASS}
+    redis:
+      build:  redis/
+      image:  pleveque/redis:stable
+      container_name: redis
+      networks:
+        - backend
+      ports:
+        - ${REDIS_PORT}:${REDIS_PORT}
+      restart: always
+      environment:
+        REDIS_PASS:   ${REDIS_PASS}
+        REDIS_PORT:   ${REDIS_PORT}
+    
 networks:
     backend:
     frontend:

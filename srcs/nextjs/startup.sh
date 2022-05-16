@@ -40,7 +40,7 @@ if [ ${REPOSITORY} == "" ] ; then
 	exit 1
 fi
 
-if [ -d "/home/app" ] && [ ${REPLACE} == "no" ] ; then
+if [ -f "/home/app/package.json" ] && [ ${REPLACE} == "no" ] ; then
 	echo "A repository as already been cloned, container will use it!"
 else
 	echo "====>CLONING REPOSITORY<===="

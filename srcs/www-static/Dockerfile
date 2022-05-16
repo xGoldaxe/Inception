@@ -14,4 +14,3 @@ COPY	www/* /tmp/www/
 COPY	startup.sh /script/startup.sh
 
 ENTRYPOINT ["/bin/sh", "/script/startup.sh"]
-#ENTRYPOINT ["nginx", "-g", "daemon off;"]
